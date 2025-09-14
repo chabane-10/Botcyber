@@ -1,203 +1,262 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar no Grupo</title>
+    <title>Aviator Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            min-height: 100vh;
+            background-color: #000;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #000000 0%, #2c2c2e 74%);
-            color: white;
-            font-family: 'Arial', sans-serif;
+            align-items: center;
+            min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 350px;
-            text-align: center;
-            position: relative;
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(15, 15, 15, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo {
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: gentleFloat 8s ease-in-out infinite;
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
+            animation: glow 2s infinite alternate;
+        }
+
+        .logo-container i {
+            font-size: 60px;
+            color: white;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            line-height: 120px;
+            background: #e50000;
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 100%, #ff6b6b 0%, #9d4ed3 100%);
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 20px 0;
-        }
-
-        .rocket-icon {
-            width: 60px;
-            height: 60px;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(229, 0, 0, 0.5);
+            transform-origin: center;
+            animation: slowSpin 10s linear infinite;
         }
 
         h1 {
-            color: #ff6b6b;
+            color: #ff3366;
+            text-align: center;
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
 
         p {
-            color: #ffffff;
-            line-height: 1.5;
-            margin-bottom: 25px;
+            color: #ddd;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
-        .button-container {
-            position: relative;
-            margin-bottom: 20px;
-            height: 120px; /* Definindo altura fixa para alinhamento */
-        }
-
-        .btn-link {
-            width: 100%;
-            padding: 18px 20px; /* Ajuste de padding */
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 10px;
-            text-decoration: none;
-            color: white;
-            display: block;
-            white-space: nowrap; /* Evita quebra de linha */
-        }
-
-        .btn-join {
-            background: linear-gradient(90deg, #9d4ed3 0%, #ff6b6b 100%);
-        }
-
-        .btn-getbot {
-            background: linear-gradient(90deg, #ff6b6b 0%, #ff9f43 100%);
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 65px;
-            height: 65px;
-            background: white;
-            border-radius: 50%;
+        .btn-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 19px;
+            font-weight: 1400; /* PESO MÁXIMO APOIADO — O MAIS GROSSO POSSÍVEL */
             cursor: pointer;
-            z-index: 1;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.8px;
+            font-family: 'Arial Black', 'Arial Bold', 'Impact', sans-serif;
+            text-decoration: none;
+            text-transform: none;
+            font-stretch: expanded;
+            font-kerning: normal;
+            line-height: 1.1;
         }
 
-        .triangle-play {
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 12px 12px 12px 0;
-            border-color: transparent #fff transparent transparent;
+        .btn-green {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
         }
 
-        .alert-box {
-            background: #2c2c2e;
-            border-left: 5px solid #ffd700;
+        .btn-blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.4s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .warning {
+            background-color: #fff8d6;
+            color: #856404;
             padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            border: 1px solid #ffeaa7;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         }
 
-        .alert-warning {
-            background: #2c2c2e;
-            border-left: 5px solid #ff6b6b;
+        .warning i {
+            margin-right: 8px;
+            color: #e67e22;
         }
 
-        .icon-warning, .icon-info {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-10px) translateX(3px); }
+            50% { transform: translateY(0px) translateX(0px); }
+            75% { transform: translateY(-10px) translateX(-3px); }
+            100% { transform: translateY(0px) translateX(0px); }
         }
 
-        @media (max-width: 480px) {
+        @keyframes slowSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        @media (max-width: 400px) {
             .container {
-                max-width: 90%;
+                padding: 20px;
             }
-            .logo {
+            
+            .logo-container {
                 width: 100px;
                 height: 100px;
             }
-            .rocket-icon {
-                width: 50px;
-                height: 50px;
+            
+            .logo-container i {
+                font-size: 50px;
+                line-height: 100px;
+                width: 100px;
+                height: 100px;
             }
-            h1 {
-                font-size: 20px;
-            }
-            p {
-                font-size: 14px;
-            }
-            .btn-link {
-                padding: 14px 15px;
-                font-size: 14px;
-            }
-            .play-button {
-                width: 55px;
-                height: 55px;
+            
+            .btn {
+                font-size: 18px;
+                padding: 17px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <svg class="rocket-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
-                <path d="M2 17C2 14.7909 4.79086 3 8.5 3H15.5C19.2091 3 22 14.7909 22 17" stroke="white" stroke-width="2"/>
-                <path d="M22 17C22 20.2091 19.2091 23 15.5 23H8.5C4.79086 23 2 20.2091 2 17" stroke="white" stroke-width="2"/>
-                <path d="M12 22C12 22 17 17 22 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                <path d="M12 22C12 22 7 17 2 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+        <div class="logo-container">
+            <i class="fas fa-plane"></i>
         </div>
-
         <h1>Antes de obter...</h1>
-        <p>Entre no nosso grupo de WhatsApp para receber dicas exclusivas de como ganhar no Aviador!</p>
-
-        <div class="button-container">
-            <a href="https://chat.whatsapp.com/Kiyjak0DMM1FCIr4GYF19H" class="btn-link btn-join">Entrar no Grupo</a>
-            <a href="https://chat.whatsapp.com/Kiyjak0DMM1FCIr4GYF19H" class="btn-link btn-getbot">Obter Bot Aviador</a>
-            <div class="play-button">
-                <div class="triangle-play"></div>
-            </div>
+        <p>Entre no nosso grupo de WhatsApp para receber dicas exclusivas de como ganhar no Aviator!</p>
+        
+        <div class="btn-container">
+            <a href="https://chat.whatsapp.com/Kiyjak0DMM1FCIr4GYF19H" target="_blank" class="btn btn-green">Entrar no Grupo</a>
+            <a href="https://chat.whatsapp.com/Kiyjak0DMM1FCIr4GYF19H" target="_blank" class="btn btn-blue">Obter Bot Aviator</a>
         </div>
-
-        <div class="alert-box alert-warning">
-            <svg class="icon-warning" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22C12 22 17 17 22 17" stroke="orange" stroke-width="2" stroke-linecap="round"/>
-                <path d="M12 22C12 22 7 17 2 17" stroke="orange" stroke-width="2" stroke-linecap="round"/>
-                <path d="M12 12L12 22" stroke="orange" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+        
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i>
             É obrigatório entrar no grupo primeiro para continuar
         </div>
-
-        <div class="alert-box">
-            <svg class="icon-info" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="lightblue" stroke-width="2"/>
-                <path d="M12 16V12L15 10" stroke="lightblue" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            Crie sua conta e faça seu depósito dentro da plataforma para garantir que o Bot Aviador funcione corretamente.
-        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.href && !this.target) {
+                        this.target = '_blank';
+                    }
+                });
+            });
+
+            function detectDevice() {
+                const userAgent = navigator.userAgent.toLowerCase();
+                let device = 'desktop';
+                
+                if (userAgent.includes('mobile') || userAgent.includes('android')) {
+                    device = 'mobile';
+                } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+                    device = 'ios';
+                }
+                
+                return device;
+            }
+
+            const device = detectDevice();
+            console.log(`Dispositivo detectado: ${device}`);
+        });
+    </script>
 </body>
 </html>
