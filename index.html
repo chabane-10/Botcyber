@@ -33,9 +33,9 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 20px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            backdrop-filter: blur(12px);
+            padding: 8px 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
             animation: fadeIn 1.5s ease-out forwards;
         }
 
@@ -46,54 +46,56 @@
 
         /* Espaçamento entre os elementos */
         .top-bar > div {
-            margin: 0 10px;
+            margin: 0 8px;
         }
 
         .time-block, .multiplier-block, .entry-block, .info-block {
             text-align: center;
-            padding: 10px 15px;
-            border-radius: 20px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            min-width: 80px;
         }
 
         .time-block {
             background: linear-gradient(135deg, #2e7dce 0%, #1a5fa0 100%);
             color: white;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(46, 125, 206, 0.3);
+            box-shadow: 0 3px 10px rgba(46, 125, 206, 0.3);
         }
 
         .multiplier-block {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 60px;
         }
 
         .entry-block {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            font-size: 1rem;
+            font-size: 0.8rem;
         }
 
         .entry-title {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             color: #b3f2c7;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             font-weight: 500;
         }
 
         .entry-time {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .waiting {
             color: #777;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .info-block {
@@ -102,27 +104,27 @@
             font-weight: 600;
             position: relative;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(142, 197, 252, 0.3);
+            box-shadow: 0 3px 10px rgba(142, 197, 252, 0.3);
         }
 
         .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: -3px;
+            right: -3px;
             background: #ff4444;
             color: white;
-            padding: 4px 10px;
+            padding: 2px 6px;
             border-radius: 50%;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
+            box-shadow: 0 1px 5px rgba(255, 68, 68, 0.5);
         }
 
         .iframe-container {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 60px);
             overflow: hidden;
         }
 
@@ -132,72 +134,142 @@
             border: none;
         }
 
-        .account-info {
-            position: absolute;
+        /* Pop-up principal */
+        .popup {
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 25px;
             border-radius: 15px;
             color: white;
             text-align: center;
             max-width: 350px;
             display: none;
-            animation: fadeUp 0.6s ease-out;
+            animation: popupFadeIn 0.6s ease-out;
+            z-index: 9999;
         }
 
-        .features {
-            margin-top: 20px;
-            line-height: 1.6;
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .popup-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .popup-text {
             font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
-        .close-btn {
-            color: #777;
-            font-size: 0.9rem;
-            margin-top: 20px;
-            cursor: pointer;
-            display: block;
+        .popup-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .close-btn:hover {
-            color: #ff4444;
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Pop-up de informações */
+        .info-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            max-width: 350px;
+            display: none;
+            animation: infoPopupFadeIn 0.6s ease-out;
+            z-index: 9999;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes infoPopupFadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
-        .pulse {
-            animation: pulse 1s infinite;
+        .info-popup-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+
+        .info-popup-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .info-popup-btn {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .info-popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
         }
 
         @media (max-width: 600px) {
             .top-bar {
-                padding: 10px 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+                padding: 6px 10px;
             }
             
             .top-bar > div {
-                margin: 8px 0;
+                margin: 0 5px;
+            }
+            
+            .time-block, .multiplier-block, .entry-block, .info-block {
+                padding: 6px 10px;
             }
             
             .multiplier-block {
-                font-size: 1.5rem;
+                font-size: 1.1rem;
             }
             
             .entry-time {
-                font-size: 1.3rem;
+                font-size: 0.9rem;
+            }
+            
+            .popup, .info-popup {
+                max-width: 90%;
+                padding: 20px 15px;
+            }
+            
+            .popup-title, .info-popup-title {
+                font-size: 1.1rem;
+            }
+            
+            .popup-text, .info-popup-text {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -223,19 +295,16 @@
         <iframe src="https://www.megagamelive.com/affiliates/?btag=2323093"></iframe>
     </div>
 
-    <div class="account-info">
-        <h2>Crie sua Conta Agora!</h2>
-        <p class="features">
-            • Criptografia de ponta a ponta<br>
-            • Mensagens e ligações gratuitas*<br>
-            • Grupos de mensagens simplificados<br>
-            • Use adesivos, áudios e GIFs<br>
-            • Camadas de proteção para segurança<br>
-            • Compartilhe fotos, vídeos e notas de voz<br>
-            • Fique atualizado sobre assuntos importantes<br>
-            • Ajuda disponível 24/7
-        </p>
-        <div class="close-btn">Fechar</div>
+    <div class="popup">
+        <div class="popup-title">⚠️ Atenção</div>
+        <div class="popup-text">Para o bot funcionar corretamente, crie uma nova conta dentro do bot e faça seu depósito dentro da plataforma.</div>
+        <button class="popup-btn">OK</button>
+    </div>
+
+    <div class="info-popup">
+        <div class="info-popup-title">✅ Informação Importante</div>
+        <div class="info-popup-text">O bot é gratuito. Se você comprou, foi burlado. Peça o reembolso do seu valor.</div>
+        <button class="info-popup-btn">OK</button>
     </div>
 
     <script>
@@ -250,7 +319,7 @@
         setInterval(updateClock, 1000);
 
         // Lógica de entrada e sinais
-        let firstSignal = true;
+        let lastMultiplier = 2;
         const entryElement = document.getElementById('entryTime');
         const multiplierElement = document.querySelector('.multiplier-block');
         
@@ -266,40 +335,64 @@
         }
 
         function generateSignal() {
-            let multiplier;
-            if (firstSignal) {
-                multiplier = Math.floor(Math.random() * 3) + 1; // 1-3
-                firstSignal = false;
+            // Sempre aumentar ou manter o valor (nunca diminuir)
+            let newMultiplier;
+            if (lastMultiplier < 10) {
+                // Aumenta gradualmente até 10X
+                newMultiplier = Math.min(10, lastMultiplier + Math.floor(Math.random() * 2) + 1);
             } else {
-                multiplier = Math.floor(Math.random() * 10) + 1; // 1-10
+                // Mantém ou aumenta acima de 10X
+                newMultiplier = lastMultiplier + Math.floor(Math.random() * 3) + 1;
             }
+            
+            lastMultiplier = newMultiplier;
             
             multiplierElement.classList.add('pulse');
             setTimeout(() => {
                 multiplierElement.classList.remove('pulse');
             }, 1000);
             
-            multiplierElement.textContent = `${multiplier}X`;
+            multiplierElement.textContent = `${newMultiplier}X`;
             entryElement.textContent = formatTime(new Date(Date.now() + 40000));
             
-            // Próximo sinal em intervalo aleatório (30s a 3min)
-            const nextDelay = Math.random() * 180000 + 30000;
+            // Intervalo entre 30 segundos e 2 minutos
+            const nextDelay = Math.random() * 90000 + 30000; // 30s a 2min
             setTimeout(generateSignal, nextDelay);
         }
 
-        // Exibir informações de conta
-        setTimeout(() => {
-            document.querySelector('.account-info').style.display = 'block';
-        }, 10000);
+        // Pop-up principal
+        let popupInterval;
+        function showPopup() {
+            document.querySelector('.popup').style.display = 'block';
+            
+            // Agendar para reaparecer a cada 2 minutos
+            if (popupInterval) clearInterval(popupInterval);
+            popupInterval = setInterval(() => {
+                document.querySelector('.popup').style.display = 'block';
+            }, 120000);
+        }
         
-        // Fechar informações de conta
-        document.querySelector('.close-btn').addEventListener('click', () => {
-            document.querySelector('.account-info').style.display = 'none';
+        // Fechar pop-up
+        document.querySelector('.popup-btn').addEventListener('click', () => {
+            document.querySelector('.popup').style.display = 'none';
+            clearInterval(popupInterval);
+            // Reagendar para reaparecer em 2 minutos
+            popupInterval = setInterval(() => {
+                document.querySelector('.popup').style.display = 'block';
+            }, 120000);
         });
-
-        // Modal de informações
+        
+        // Exibir pop-up após 24 segundos
+        setTimeout(showPopup, 24000);
+        
+        // Pop-up de informações
         document.querySelector('.info-block').addEventListener('click', () => {
-            alert("Atenção: Este bot é totalmente gratuito. Se alguém o vendeu, peça o reembolso.");
+            document.querySelector('.info-popup').style.display = 'block';
+        });
+        
+        // Fechar pop-up de informações
+        document.querySelector('.info-popup-btn').addEventListener('click', () => {
+            document.querySelector('.info-popup').style.display = 'none';
         });
     </script>
 </body>
