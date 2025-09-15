@@ -147,25 +147,31 @@
             text-align: center;
             max-width: 350px;
             display: none;
-            animation: popupFadeIn 0.6s ease-out;
+            animation: popupZoomIn 0.5s ease-out;
             z-index: 9999;
         }
 
-        @keyframes popupFadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+        @keyframes popupZoomIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
 
         .popup-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 15px;
             color: #ff6b6b;
         }
 
         .popup-text {
-            font-size: 1.1rem;
-            line-height: 1.5;
+            font-size: 1.2rem;
+            line-height: 1.6;
             margin-bottom: 20px;
         }
 
@@ -179,6 +185,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
         .popup-btn:hover {
@@ -199,26 +206,24 @@
             text-align: center;
             max-width: 350px;
             display: none;
-            animation: infoPopupFadeIn 0.6s ease-out;
+            animation: bounce 0.6s ease;
             z-index: 9999;
         }
 
-        @keyframes infoPopupFadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-
-        .info-popup-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2ecc71;
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            20% { transform: translate(-50%, -50%) translateY(-20px); }
+            40% { transform: translate(-50%, -50%) translateY(-10px); }
+            60% { transform: translate(-50%, -50%) translateY(-15px); }
+            80% { transform: translate(-50%, -50%) translateY(-5px); }
         }
 
         .info-popup-text {
-            font-size: 1.1rem;
-            line-height: 1.5;
+            font-size: 1.3rem;
+            line-height: 1.6;
             margin-bottom: 20px;
+            color: #ffcc00;
+            font-weight: 600;
         }
 
         .info-popup-btn {
@@ -264,12 +269,12 @@
                 padding: 20px 15px;
             }
             
-            .popup-title, .info-popup-title {
+            .popup-title, .info-popup-text {
                 font-size: 1.1rem;
             }
             
             .popup-text, .info-popup-text {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -302,8 +307,7 @@
     </div>
 
     <div class="info-popup">
-        <div class="info-popup-title">✅ Informação Importante</div>
-        <div class="info-popup-text">O bot é gratuito. Se você comprou, foi burlado. Peça o reembolso do seu valor.</div>
+        <div class="info-popup-text">ℹ️ O bot é gratuito. Se você comprou, foi burlado. Peça o reembolso do seu valor.</div>
         <button class="info-popup-btn">OK</button>
     </div>
 
@@ -355,35 +359,25 @@
             multiplierElement.textContent = `${newMultiplier}X`;
             entryElement.textContent = formatTime(new Date(Date.now() + 40000));
             
-            // Intervalo entre 30 segundos e 2 minutos
-            const nextDelay = Math.random() * 90000 + 30000; // 30s a 2min
+            // Intervalo entre 30 segundos e 1 minuto
+            const nextDelay = Math.random() * 30000 + 30000; // 30s a 60s
             setTimeout(generateSignal, nextDelay);
         }
 
-        // Pop-up principal
-        let popupInterval;
-        function showPopup() {
+        // Exibir pop-up após 20 segundos
+        setTimeout(() => {
             document.querySelector('.popup').style.display = 'block';
-            
-            // Agendar para reaparecer a cada 2 minutos
-            if (popupInterval) clearInterval(popupInterval);
-            popupInterval = setInterval(() => {
-                document.querySelector('.popup').style.display = 'block';
-            }, 120000);
-        }
+        }, 20000);
         
-        // Fechar pop-up
+        // Exibir pop-up após 2 minutos (120 segundos)
+        setTimeout(() => {
+            document.querySelector('.popup').style.display = 'block';
+        }, 120000);
+        
+        // Fechar pop-up principal
         document.querySelector('.popup-btn').addEventListener('click', () => {
             document.querySelector('.popup').style.display = 'none';
-            clearInterval(popupInterval);
-            // Reagendar para reaparecer em 2 minutos
-            popupInterval = setInterval(() => {
-                document.querySelector('.popup').style.display = 'block';
-            }, 120000);
         });
-        
-        // Exibir pop-up após 24 segundos
-        setTimeout(showPopup, 24000);
         
         // Pop-up de informações
         document.querySelector('.info-block').addEventListener('click', () => {
