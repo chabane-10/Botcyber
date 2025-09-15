@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bot Aviator</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
 
         * {
             margin: 0;
@@ -67,8 +67,8 @@
         .multiplier-block {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 900;
             box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             min-width: 60px;
@@ -88,8 +88,8 @@
         }
 
         .entry-time {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 900;
             letter-spacing: 1px;
         }
 
@@ -257,11 +257,11 @@
             }
             
             .multiplier-block {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
             }
             
             .entry-time {
-                font-size: 0.9rem;
+                font-size: 1.1rem;
             }
             
             .popup, .info-popup {
@@ -281,7 +281,7 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="time-block">00:00:00</div>
+        <div class="time-block">00:00</div>
         
         <div class="multiplier-block">2X</div>
         
@@ -312,18 +312,17 @@
     </div>
 
     <script>
-        // Relógio em tempo real
+        // Relógio em tempo real (sem segundos)
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.querySelector('.time-block').textContent = `${hours}:${minutes}:${seconds}`;
+            document.querySelector('.time-block').textContent = `${hours}:${minutes}`;
         }
         setInterval(updateClock, 1000);
 
         // Lógica de entrada e sinais
-        let lastMultiplier = 2;
+        let currentMultiplier = 2;
         const entryElement = document.getElementById('entryTime');
         const multiplierElement = document.querySelector('.multiplier-block');
         
@@ -335,32 +334,23 @@
         }, 40000);
 
         function formatTime(date) {
-            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
         }
 
         function generateSignal() {
-            // Sempre aumentar ou manter o valor (nunca diminuir)
-            let newMultiplier;
-            if (lastMultiplier < 10) {
-                // Aumenta gradualmente até 10X
-                newMultiplier = Math.min(10, lastMultiplier + Math.floor(Math.random() * 2) + 1);
-            } else {
-                // Mantém ou aumenta acima de 10X
-                newMultiplier = lastMultiplier + Math.floor(Math.random() * 3) + 1;
-            }
-            
-            lastMultiplier = newMultiplier;
+            // Geração totalmente aleatória entre 1-10X
+            currentMultiplier = Math.floor(Math.random() * 10) + 1;
             
             multiplierElement.classList.add('pulse');
             setTimeout(() => {
                 multiplierElement.classList.remove('pulse');
             }, 1000);
             
-            multiplierElement.textContent = `${newMultiplier}X`;
+            multiplierElement.textContent = `${currentMultiplier}X`;
             entryElement.textContent = formatTime(new Date(Date.now() + 40000));
             
-            // Intervalo entre 30 segundos e 1 minuto
-            const nextDelay = Math.random() * 30000 + 30000; // 30s a 60s
+            // Intervalo entre 15-45 segundos (máximo 45 segundos por sinal)
+            const nextDelay = Math.random() * 30000 + 15000; // 15s a 45s
             setTimeout(generateSignal, nextDelay);
         }
 
