@@ -1,367 +1,334 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Bot</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Bot Aviator</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', sans-serif;
+            background: #0f0f0f;
             min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(15, 15, 15, 0.9);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 10;
-        }
-
-        .logo-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            position: relative;
-            animation: gentleFloat 8s ease-in-out infinite;
-        }
-
-        .logo-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 1;
-            animation: glow 2s infinite alternate;
-        }
-
-        .logo-container i {
-            font-size: 60px;
-            color: white;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            line-height: 120px;
-            background: #e50000;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(229, 0, 0, 0.5);
-            transform-origin: center;
-            animation: slowSpin 10s linear infinite;
-        }
-
-        h1 {
-            color: #ff3366;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
-        p {
-            color: #ddd;
-            text-align: center;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 18px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 12px;
-            font-size: 19px;
-            font-weight: 1400; /* MÁXIMO GROSSO POSSÍVEL */
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
-            letter-spacing: 0.8px;
-            font-family: 'Arial Black', 'Arial Bold', 'Impact', sans-serif;
-            text-decoration: none;
-            text-transform: none;
-            font-stretch: expanded;
-            font-kerning: normal;
-            line-height: 1.1;
-            color: white;
-            text-shadow: 0 0 5px rgba(255,255,255,0.2);
         }
 
-        .btn-green {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-        }
-
-        .btn-blue {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: 0.4s;
-        }
-
-        .btn:hover::after {
-            left: 100%;
-        }
-
-        /* ANIMAÇÃO DE CLICADO — EXATAMENTE 3 SEGUNDOS */
-        .btn.clicked {
-            animation: buttonClick 3s ease-out forwards;
-            transform-origin: center;
-        }
-
-        @keyframes buttonClick {
-            0% { 
-                transform: scale(1) translateY(0); 
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            }
-            20% { 
-                transform: scale(0.97) translateY(2px); 
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            }
-            40% { 
-                transform: scale(0.95) translateY(4px); 
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            }
-            60% { 
-                transform: scale(0.97) translateY(2px); 
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            }
-            80% { 
-                transform: scale(0.99) translateY(1px); 
-                box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35);
-            }
-            100% { 
-                transform: scale(1) translateY(0); 
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            }
-        }
-
-        .warning {
-            background-color: #fff8d6;
-            color: #856404;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-            border: 1px solid #ffeaa7;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-        }
-
-        .warning i {
-            margin-right: 8px;
-            color: #e67e22;
-        }
-
-        @keyframes gentleFloat {
-            0% { transform: translateY(0px) translateX(0px); }
-            25% { transform: translateY(-10px) translateX(3px); }
-            50% { transform: translateY(0px) translateX(0px); }
-            75% { transform: translateY(-10px) translateX(-3px); }
-            100% { transform: translateY(0px) translateX(0px); }
-        }
-
-        @keyframes slowSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes glow {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.7; }
-        }
-
-        @media (max-width: 400px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .logo-container {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .logo-container i {
-                font-size: 50px;
-                line-height: 100px;
-                width: 100px;
-                height: 100px;
-            }
-            
-            .btn {
-                font-size: 18px;
-                padding: 17px;
-            }
-        }
-
-        /* Overlay de carregamento — MOSTRA A ANIMAÇÃO E ESPERA 3s */
-        .loading-overlay {
+        .bot-container {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
+            right: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            z-index: 999;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            pointer-events: none;
+            justify-content: space-around;
+            padding: 15px 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            animation: fadeIn 1.5s ease-out forwards;
         }
 
-        .loading-overlay.show {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: none;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .loading-content {
-            text-align: center;
+        .time-block {
+            background: linear-gradient(135deg, #2e7dce 0%, #1a5fa0 100%);
             color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(46, 125, 206, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top: 5px solid #ff3366;
-            border-radius: 50%;
-            animation: spin 1.2s linear infinite;
-            margin-bottom: 20px;
+        .multiplier-block {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .entry-block {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
         }
 
-        .loading-text {
-            font-size: 20px;
+        .entry-title {
+            font-size: 0.85rem;
+            color: #b3f2c7;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .entry-time {
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
 
-        .loading-message {
-            font-size: 16px;
-            color: #ccc;
-            margin-top: 10px;
+        .waiting {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .info-block {
+            background: linear-gradient(135deg, #8ec5fc 0%, #5d9cec 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(142, 197, 252, 0.3);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
+        }
+
+        .iframe-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .alert-box {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+            max-width: 320px;
+            text-align: center;
+            z-index: 9999;
+            display: none;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            max-width: 300px;
+            text-align: center;
+            display: none;
+            animation: modalFadeIn 0.4s ease;
+        }
+
+        .close-btn {
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            cursor: pointer;
+            display: block;
+            font-weight: 600;
+        }
+
+        .close-btn:hover {
+            color: #ff4444;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-50px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @media (max-width: 600px) {
+            .bot-container {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .time-block, .entry-block, .info-block {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            
+            .multiplier-block {
+                font-size: 1.1rem;
+                padding: 6px 15px;
+            }
+            
+            .entry-title {
+                font-size: 0.75rem;
+            }
+            
+            .entry-time {
+                font-size: 1rem;
+            }
+            
+            .alert-box {
+                max-width: 90%;
+                top: 70px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <i class="fas fa-plane"></i>
-        </div>
-        <h1>Antes de obter...</h1>
-        <p>Entre no nosso grupo de WhatsApp para receber dicas exclusivas de como ganhar no Aviator!</p>
+    <div class="bot-container">
+        <div class="time-block">00:00:00</div>
         
-        <div class="btn-container">
-            <button class="btn btn-green" id="joinGroup">Entrar no Grupo</button>
-            <button class="btn btn-blue" id="getBot">Obter Bot Aviator</button>
+        <div class="multiplier-block">2X</div>
+        
+        <div class="entry-block">
+            <div class="entry-title">Entrada:</div>
+            <div id="entryTime" class="entry-time waiting">Aguarde</div>
         </div>
         
-        <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i>
-            É obrigatório entrar no grupo primeiro para continuar
+        <div class="info-block">
+            inf
+            <div class="notification-badge">99+</div>
         </div>
     </div>
 
-    <!-- Overlay de carregamento -->
-    <div class="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Abrindo WhatsApp...</div>
-            <div class="loading-message">Por favor, aguarde</div>
-        </div>
+    <div class="iframe-container">
+        <iframe src="https://www.megagamelive.com/affiliates/?btag=2323093"></iframe>
+    </div>
+
+    <div class="alert-box">
+        Crie uma nova conta dentro do bot e faça seu depósito dentro da plataforma para garantir que o Bot Aviator funcione corretamente
+        <div class="close-btn">ok</div>
+    </div>
+
+    <div class="modal">
+        atenção esse bot é totalmente gratuito e se a pessoa te vendeu pedi o reembolso do seu valor
+        <div class="close-btn">ok</div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const joinButton = document.getElementById('joinGroup');
-            const botButton = document.getElementById('getBot');
-            const loadingOverlay = document.querySelector('.loading-overlay');
-            const whatsappLink = "https://chat.whatsapp.com/Kiyjak0DMM1FCIr4GYF19H";
+        // Relógio em tempo real
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.querySelector('.time-block').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
 
-            // Função para iniciar a animação e abrir o WhatsApp após 3s
-            function handleButtonClick(button) {
-                // Adiciona classe de animação
-                button.classList.add('clicked');
+        // Lógica de entrada e sinais
+        let firstSignal = true;
+        const entryElement = document.getElementById('entryTime');
+        const multiplierElement = document.querySelector('.multiplier-block');
+        
+        // Inicia após 40 segundos
+        setTimeout(() => {
+            entryElement.classList.remove('waiting');
+            entryElement.textContent = formatTime(new Date(Date.now() + 40000));
+            generateSignal();
+        }, 40000);
 
-                // Mostra overlay
-                loadingOverlay.classList.add('show');
+        function formatTime(date) {
+            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+        }
 
-                // Aguarda 3 segundos antes de redirecionar
-                setTimeout(() => {
-                    window.open(whatsappLink, '_blank');
-                    loadingOverlay.classList.remove('show');
-                    button.classList.remove('clicked');
-                }, 3000);
+        function generateSignal() {
+            let multiplier;
+            if (firstSignal) {
+                multiplier = Math.floor(Math.random() * 3) + 1; // 1-3
+                firstSignal = false;
+            } else {
+                multiplier = Math.floor(Math.random() * 10) + 1; // 1-10
             }
+            
+            // Animação de pulso para o multiplicador
+            multiplierElement.classList.add('pulse');
+            setTimeout(() => {
+                multiplierElement.classList.remove('pulse');
+            }, 1000);
+            
+            multiplierElement.textContent = `${multiplier}X`;
+            entryElement.textContent = formatTime(new Date(Date.now() + 40000));
+            
+            // Próximo sinal em intervalo aleatório (30s a 3min)
+            const nextDelay = Math.random() * 180000 + 30000;
+            setTimeout(generateSignal, nextDelay);
+        }
 
-            // Adiciona evento aos botões
-            joinButton.addEventListener('click', () => handleButtonClick(joinButton));
-            botButton.addEventListener('click', () => handleButtonClick(botButton));
+        // Mensagens automáticas
+        setTimeout(() => {
+            document.querySelector('.alert-box').style.display = 'block';
+        }, 10000);
+        
+        setTimeout(() => {
+            const alertBox = document.querySelector('.alert-box');
+            alertBox.innerHTML = "Registre-se já! Aproveite ofertas exclusivas";
+            alertBox.style.display = 'block';
+        }, 60000);
 
-            // Evita comportamento padrão de link (usamos buttons, não links)
-            joinButton.preventDefault = () => {};
-            botButton.preventDefault = () => {};
+        // Fechar mensagens
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.alert-box, .modal').style.display = 'none';
+            });
+        });
+
+        // Modal de informações
+        document.querySelector('.info-block').addEventListener('click', () => {
+            document.querySelector('.modal').style.display = 'block';
         });
     </script>
 </body>
