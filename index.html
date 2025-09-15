@@ -81,10 +81,10 @@
         }
 
         .entry-title {
-            font-size: 0.7rem;
-            color: #b3f2c7;
+            font-size: 0.8rem;
+            color: white;
             margin-bottom: 3px;
-            font-weight: 500;
+            font-weight: 900;
         }
 
         .entry-time {
@@ -281,7 +281,7 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="time-block">00:00</div>
+        <div class="time-block">00:00:00</div>
         
         <div class="multiplier-block">2X</div>
         
@@ -312,12 +312,13 @@
     </div>
 
     <script>
-        // Relógio em tempo real (sem segundos)
+        // Relógio em tempo real com segundos
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.querySelector('.time-block').textContent = `${hours}:${minutes}`;
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.querySelector('.time-block').textContent = `${hours}:${minutes}:${seconds}`;
         }
         setInterval(updateClock, 1000);
 
@@ -334,7 +335,7 @@
         }, 40000);
 
         function formatTime(date) {
-            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
         }
 
         function generateSignal() {
