@@ -21,7 +21,7 @@
             overflow: hidden;
         }
 
-        .bot-container {
+        .top-bar {
             position: fixed;
             top: 0;
             left: 0;
@@ -127,36 +127,25 @@
             border: none;
         }
 
-        .alert-box {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100%);
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white;
-            padding: 20px 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
-            max-width: 320px;
-            text-align: center;
-            z-index: 9999;
-            display: none;
-            animation: slideIn 0.6s ease-out;
-        }
-
-        .modal {
-            position: fixed;
+        .account-info {
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: rgba(0, 0, 0, 0.8);
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            max-width: 300px;
+            color: white;
             text-align: center;
+            max-width: 350px;
             display: none;
-            animation: modalFadeIn 0.4s ease;
+            animation: fadeUp 0.6s ease-out;
+        }
+
+        .features {
+            margin-top: 20px;
+            line-height: 1.6;
+            font-size: 1.1rem;
         }
 
         .close-btn {
@@ -172,14 +161,9 @@
             color: #ff4444;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(-50px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulse {
@@ -193,8 +177,7 @@
         }
 
         @media (max-width: 600px) {
-            .bot-container {
-                padding: 10px 10px;
+            .top-bar {
                 flex-direction: column;
                 align-items: center;
             }
@@ -213,16 +196,11 @@
             .entry-time {
                 font-size: 1.3rem;
             }
-            
-            .alert-box {
-                max-width: 90%;
-                top: 70px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="bot-container">
+    <div class="top-bar">
         <div class="time-block">00:00:00</div>
         
         <div class="multiplier-block">2X</div>
@@ -242,14 +220,19 @@
         <iframe src="https://www.megagamelive.com/affiliates/?btag=2323093"></iframe>
     </div>
 
-    <div class="alert-box">
-        Crie uma nova conta dentro do bot e faça seu depósito dentro da plataforma para garantir que o Bot Aviator funcione corretamente
-        <div class="close-btn">ok</div>
-    </div>
-
-    <div class="modal">
-        atenção esse bot é totalmente gratuito e se a pessoa te vendeu pedi o reembolso do seu valor
-        <div class="close-btn">ok</div>
+    <div class="account-info">
+        <h2>Crie sua Conta Agora!</h2>
+        <p class="features">
+            • Criptografia de ponta a ponta<br>
+            • Mensagens e ligações gratuitas*<br>
+            • Grupos de mensagens simplificados<br>
+            • Use adesivos, áudios e GIFs<br>
+            • Camadas de proteção para segurança<br>
+            • Compartilhe fotos, vídeos e notas de voz<br>
+            • Fique atualizado sobre assuntos importantes<br>
+            • Ajuda disponível 24/7
+        </p>
+        <div class="close-btn">Fechar</div>
     </div>
 
     <script>
@@ -301,27 +284,19 @@
             setTimeout(generateSignal, nextDelay);
         }
 
-        // Mensagens automáticas
+        // Exibir informações de conta
         setTimeout(() => {
-            document.querySelector('.alert-box').style.display = 'block';
+            document.querySelector('.account-info').style.display = 'block';
         }, 10000);
         
-        setTimeout(() => {
-            const alertBox = document.querySelector('.alert-box');
-            alertBox.innerHTML = "Registre-se já! Aproveite ofertas exclusivas";
-            alertBox.style.display = 'block';
-        }, 60000);
-
-        // Fechar mensagens
-        document.querySelectorAll('.close-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.closest('.alert-box, .modal').style.display = 'none';
-            });
+        // Fechar informações de conta
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.querySelector('.account-info').style.display = 'none';
         });
 
         // Modal de informações
         document.querySelector('.info-block').addEventListener('click', () => {
-            document.querySelector('.modal').style.display = 'block';
+            alert("Atenção: Este bot é totalmente gratuito. Se alguém o vendeu, peça o reembolso.");
         });
     </script>
 </body>
