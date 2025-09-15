@@ -29,9 +29,9 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
             z-index: 999;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: space-around;
-            padding: 15px 20px;
+            padding: 12px 15px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             backdrop-filter: blur(12px);
             animation: fadeIn 1.5s ease-out forwards;
@@ -42,24 +42,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .time-block, .multiplier-block, .entry-block, .info-block {
+            flex: 1;
+            max-width: 180px;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 20px;
+        }
+
         .time-block {
             background: linear-gradient(135deg, #2e7dce 0%, #1a5fa0 100%);
             color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
             font-size: 1.2rem;
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(46, 125, 206, 0.3);
-            transition: all 0.3s ease;
         }
 
         .multiplier-block {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 800;
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -67,11 +70,7 @@
         .entry-block {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            padding: 15px 25px;
-            border-radius: 25px;
-            width: 220px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            font-size: 1rem;
         }
 
         .entry-title {
@@ -82,7 +81,7 @@
         }
 
         .entry-time {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
@@ -95,11 +94,9 @@
         .info-block {
             background: linear-gradient(135deg, #8ec5fc 0%, #5d9cec 100%);
             color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
+            font-weight: 600;
             position: relative;
             cursor: pointer;
-            font-weight: 600;
             box-shadow: 0 4px 15px rgba(142, 197, 252, 0.3);
         }
 
@@ -197,27 +194,24 @@
 
         @media (max-width: 600px) {
             .bot-container {
-                padding: 10px 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+                padding: 10px 10px;
+                flex-direction: column;
+                align-items: center;
             }
             
-            .time-block, .entry-block, .info-block {
-                font-size: 1rem;
-                padding: 10px 15px;
+            .time-block, .multiplier-block, .entry-block, .info-block {
+                width: 100%;
+                max-width: none;
+                margin: 8px 0;
+                padding: 12px 15px;
             }
             
             .multiplier-block {
-                font-size: 1.1rem;
-                padding: 6px 15px;
-            }
-            
-            .entry-title {
-                font-size: 0.75rem;
+                font-size: 1.5rem;
             }
             
             .entry-time {
-                font-size: 1rem;
+                font-size: 1.3rem;
             }
             
             .alert-box {
@@ -294,7 +288,6 @@
                 multiplier = Math.floor(Math.random() * 10) + 1; // 1-10
             }
             
-            // Animação de pulso para o multiplicador
             multiplierElement.classList.add('pulse');
             setTimeout(() => {
                 multiplierElement.classList.remove('pulse');
